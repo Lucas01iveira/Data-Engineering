@@ -1,0 +1,3 @@
+# Aplicações para serem ignoradas pelo git
+teste.py
+__pycache__

@@ -16,7 +16,7 @@ print('- x - x '*4, end='')
 print('-')
 
 for index_game, game in enumerate(games_list):
-    if (game != 'jogos.py') and (game != 'teste.py') and (game != '__pycache__'):
+    if game not in ['jogos.py', 'teste.py', '__pycache__', 'palavras.txt', 'gera_arquivo_palavras.py', 'forca_dev.py']:
         print(f'{index_game} - {game.replace(".py","").upper()}')
         indexes_list.append(str(index_game))
         sleep(1)
@@ -52,5 +52,4 @@ elif (index_resposta == '1'): # Jogo da forca
         else:
             print('.',end='')
         sleep(1)
-
     forca.inicializar_jogo()    

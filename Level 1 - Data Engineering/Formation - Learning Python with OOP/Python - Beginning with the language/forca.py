@@ -32,6 +32,11 @@ def inicializar_jogo():
             
         acertou, enforcou = verifica_encerramento(auxiliar_interface_jogo, acertou, enforcou, total_tentativas, erros, palavra_secreta)
 
+        if acertou:
+            imprime_mensagem_vencedor(auxiliar_interface_jogo)
+        elif enforcou:
+            imprime_mensagem_perdedor(palavra_secreta)
+
         print('-'*45)
         print()
 
@@ -86,7 +91,10 @@ def desenha_forca(erros):
     print("_|___         ")
     print()
 
-def imprime_mensagem_vencedor():
+def imprime_mensagem_vencedor(lista_auxiliar):
+    print('-'*55)
+    loop_printa_lista(lista_auxiliar)
+    print()
     print("Parabéns, você ganhou!")
     print("       ___________      ")
     print("      '._==_==_=_.'     ")
@@ -160,21 +168,9 @@ def contabiliza_acerto(letra, lista_auxiliar, palavra):
 
 def verifica_encerramento(lista_auxiliar, bool_sucesso, bool_fracasso, total_tentativas, erros, palavra):
     if ('_' not in lista_auxiliar): 
-        #print('-'*55)
-        #loop_printa_lista(lista_auxiliar)
-        #print()
-        #print('Parabéns! Você venceu o jogo da forca.')
-        print('-'*55)
-        loop_printa_lista(lista_auxiliar)
-        print()
-        imprime_mensagem_vencedor()
         bool_sucesso = True
-        
+
     elif (erros == total_tentativas):
-        #print('-'*45)
-        #print('Que pena! Você perdeu.\nA palavra secreta era {}'.format(palavra))
-        #print('Obrigado por jogar!')
-        imprime_mensagem_perdedor(palavra)
         bool_fracasso = True
     
     return bool_sucesso, bool_fracasso

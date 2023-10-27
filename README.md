@@ -9,7 +9,7 @@ Caso tenha ideias ou sugestões, sinta-se à vontade para me contatar.
 Atenciosamente,
 Lucas.
 
--- x -- -- x -- -- x -- -- x -- -- x -- -- x -- -- x -- -- x -- -- x -- -- x -- -- x -- -- x -- -- x -- -- x -- -- x -- -- x -- -- x -- -- x 
+x -- -- x -- -- x -- -- x -- -- x -- -- x -- -- x -- -- x -- -- x -- -- x -- -- x -- -- x -- -- x -- -- x -- -- x -- -- x -- -- x -- -- x 
 
 This repository was created with the intention to store files, notebooks, scripts and documents created or generated along Alura Data Engineering Tech Guide formation. The ideia of this repo is to be helpful and useful when the need of review / remember something appears.
 

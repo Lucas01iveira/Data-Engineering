@@ -5,7 +5,7 @@ class Conta:
     #    é criado automaticamente pelo python quando a classe é instanciada em alguma variável
 
     # função construtora
-    def __init__(self, numero, titular, saldo, limite):
+    def __init__(self, numero, titular, saldo, limite, codigo_banco):
         # sempre é possível definir parâmetros opcionais, implementando a sintaxe def __init__ (self, .. , <param_opcional> = <valor_default>)
         # desse modo, caso o parâmetro não seja informado no momento da definição do objeto, o valor default será atribuído.
         
@@ -16,6 +16,7 @@ class Conta:
         self.__titular = titular
         self.__saldo = saldo
         self.__limite = limite
+        self.__codigo_banco = codigo_banco
 
         # uma vez que eu digito "self.<atributo>", já estou informado para o python que o atributo em questão pertence AO OBJETO que acabou de ser criado.
 
@@ -74,3 +75,8 @@ class Conta:
     @limite.setter
     def limite(self, novo_limite):
         self.__limite = novo_limite
+
+    # método estático para consultar um atributo comum a todos os objetos definidos por essa classe (no caso, o código do banco responsável por gerir a conta)
+    @staticmethod
+    def codigo_banco():
+        return {'Banco1': '001', 'Banco2': '002', 'Banco3': '003'}

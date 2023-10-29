@@ -28,17 +28,23 @@ class Conta:
 
     # função relativa aos objetos dessa classe (método): deposita dinheiro
     def deposita(self, valor):
-        if (self.__saldo + valor <= self.__limite):
-            self.__saldo += valor
-        else:
-            print('Você não pode depositar a quantia de {}, pois o seu saldo final irá ultrapassar o limite máximo permitido de {}'.format(valor, self.__limite))
+        self.__saldo += valor
+
+    # função auxiliar definida para verificar se um saque pode ou não ser efetuado (método privado!)    
+    def __pode_sacar(self, valor_do_saque):
+        max_permitido = self.__saldo + self.__limite
+        if (valor_do_saque <= max_permitido):
+            return True
         
+        else:
+            return False
+
     # função relativa aos objetos dessa classe (método): saca dinheiro
     def saca(self, valor):
-        if (self.__saldo - valor >= 0):
+        if self.__pode_sacar(valor):
             self.__saldo -= valor
         else:
-            print('Você não pode sacar a quantia de {}, pois o seu saldo final ficará negativo'.format(valor))
+            print('Você não pode sacar a quantia de {}, pois ela ultrapassa o limite máximo de empréstimo permitido para a sua conta'.format(valor))
     
     # mfunção relativa aos objetos dessa classe (método): transfere dinheiro
     def transfere(self, valor, destino):

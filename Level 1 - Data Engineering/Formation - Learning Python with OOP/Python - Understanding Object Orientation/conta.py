@@ -50,17 +50,21 @@ class Conta:
         return self.__numero
 
     # método "getter" para consultar o limite da conta 
-    def get_limite(self):
+    @property
+    def limite(self):
         return self.__limite
     
     # método "getter" para consultar o saldo da conta
-    def get_saldo(self):
+    @property
+    def saldo(self):
         return self.__saldo
 
     # método "getter" para consultar o titular da conta
-    def get_titular(self):
+    @property
+    def titular(self):
         return self.__titular
     
     # método "setter" para ajustar o limite da conta
-    def set_limite(self, novo_limite):
+    @limite.setter
+    def limite(self, novo_limite):
         self.__limite = novo_limite

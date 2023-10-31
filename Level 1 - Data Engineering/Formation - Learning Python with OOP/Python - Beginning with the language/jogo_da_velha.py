@@ -2,7 +2,6 @@
 Jogo da velha interativo
 
 Autor: Lucas de Paula Oliveira
-Data de criação: 08/08/2022 18h 54min
 '''
 
 # Funções importantes para a execução do código main:

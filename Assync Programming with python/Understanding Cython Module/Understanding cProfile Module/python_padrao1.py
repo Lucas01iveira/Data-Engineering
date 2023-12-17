@@ -29,6 +29,20 @@ if __name__ == '__main__':
     main()
 
     profiler.disable()
-    profiler.dumpstats
+    profiler.dump_stats(r'C:\Users\LUCAS\Documents\Data Engineering\Data-Engineering\Assync Programming with python\Understanding Cython Module\Understanding cProfile Module\python_padrao1.stats') # geração de arquivo binário com os status
+
+    # geração das estatísticas
+    sec = io.StringIO()
+    sortBy = SortKey.TIME # ordenamento das estatísticas por tempo de execução
+
+    # apresentando os stats dentro do próprio terminal de execução
+    ps = pstats.Stats(profiler, stream=sec).sort_stats(sortBy)
+    ps.print_stats()
+    print(sec.getvalue())
+
+    # Para visualizar o arquivo .stats gerado, devemos chamar o snakeviz no terminal da seguinte maneira: 
+    # python -m snakeviz python_padrao1.stats --server
+
+    # em seguida, basta acessar o link gerado
 
 # Resultado: Execução terminou em 189.12 segundos 

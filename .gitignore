@@ -1,3 +1,4 @@
 # Aplicações para serem ignoradas pelo git
 teste.py
 __pycache__
+C:\Users\LUCAS\Documents\Data Engineering\Data-Engineering\Assync Programming with python\Understanding Cython Module\Understanding cProfile Module\venv_EntendendoCprofile

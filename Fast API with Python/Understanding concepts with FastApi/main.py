@@ -85,7 +85,9 @@ async def calculadora(
         , c: Optional[int] = 0 # query parameter opcional
     ):
     soma = a+b+c
-    print('X-GEEK: {}'.format(x_geek))
+    print('X-GEEK: {}'.format(x_geek)) 
+    # '_' deve ser passado como '-' no header quando a requisição estiver sendo feita
+
     return {'resultado': soma}
 
 if __name__ == '__main__':

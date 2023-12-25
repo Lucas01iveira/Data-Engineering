@@ -1,4 +1,4 @@
-from typing import List, Optional, Any # classes de typing hints
+from typing import List, Optional, Any, Dict # classes de typing hints
 from fastapi import FastAPI # classe de definição do aplicativo
 from fastapi import HTTPException # classe para retorno do objeto HttpException
 from fastapi import status # constante com códigos de de resposta http (para cada tipo de log) 
@@ -56,7 +56,11 @@ def conecta_database():
     
 
 # método de consulta (GET)
-@app.get('/cursos') # definindo o endpoint (para método get)
+@app.get('/cursos'
+         , description= 'Retorna todos os cursos ou uma lista vazia'
+         , summary= 'Retorna todos os cursos'
+         , response_model= Dict[int, Curso]
+         , response_description='Cursos encontrados com sucesso')
 async def get_cursos(db: Any = Depends(conecta_database)):
     return cursos
 
@@ -79,7 +83,7 @@ async def get_cursos(
 
 # método de criação/geração de dados (POST)
 # por padrão, o fastAPI retorna status 200 (mas para objetos criados/postados o correto seria 201), então temos que especificar manualmente dentro da definição do endpoint
-@app.post('/cursos', status_code= status.HTTP_201_CREATED)  
+@app.post('/cursos', status_code= status.HTTP_201_CREATED, response_model=Curso) 
 async def post_curso(
     curso: Curso
     ,db: Any = Depends(conecta_database)

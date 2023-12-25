@@ -1,8 +1,17 @@
-from fastapi import FastAPI
-from fastapi import HTTPException
-from fastapi import status
-from models import Curso
+from typing import List, Optional # classes de typing hints
+from fastapi import FastAPI # classe de definição do aplicativo
+from fastapi import HTTPException # classe para retorno do objeto HttpException
+from fastapi import status # constante com códigos de de resposta http (para cada tipo de log) 
+from fastapi import Response # classe para retorno da resposta 204 (no content / endpoint delete)
+from fastapi import Path # classe auxiliar de validação do parâmetro passado no endpoint get (path)
+from fastapi import Query # classe auxiliar de validação do parâmetro passado na query do endpoint get
+from fastapi import Header # classe auxiliar de validação do header da requisição get
+from fastapi.responses import JSONResponse # classe para retorno da resposta 204 (ainda em dev)
+from models import Curso # classe curso (referente ao projeto da nossa aplicação)
 
+# acesso da documentação no navegador:
+# http://localhost:<numero_da_porta>/docs
+# http://localhost:<numero_da_porta>/redoc
 app = FastAPI()
 
 cursos = {
@@ -24,7 +33,7 @@ async def get_cursos():
     return cursos
 
 @app.get('/cursos/{curso_id}')
-async def get_cursos(curso_id: int): 
+async def get_cursos(curso_id: int = Path(default=None, description= 'O Id deve estar entre 0 e 3', gt=0, lt=3)): 
     
     # apenas por indicar o typing hint da variável em utilização o próprio fastApi já tenta fazer a conversão automaticamente (visto que tudo que entra pelo usuário é string) e, se não for possível, uma mensagem de erro é retornada.
 
@@ -54,6 +63,30 @@ async def put_curso(curso_id: int, curso: Curso):
         delattr(curso, 'id') # deletando o atributo id (opcional)
         cursos[curso_id].update(curso)
         return curso
+
+@app.delete('/cursos/{curso_id}')
+async def delete_curso(curso_id: int):
+    if curso_id not in cursos:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND
+            ,detail= 'O curso que você está tentando atualizar não foi encontrado no database'
+        )
+    else:
+        del cursos[curso_id]
+        #return JSONResponse(status_code=status.HTTP_204_NO_CONTENT) # por enquanto o json response não está 100% implementado (Sem bugs)
+        return Response(status_code=status.HTTP_204_NO_CONTENT)
+
+# método extra apenas para entendimento das query parameters
+@app.get('/calculadora')
+async def calculadora(
+        a: int = Query(default=None, gt=0, lt=5) # validando query parameter
+        , x_geek: str = Header(default=None) # validando header parameter
+        , b: int = Query(default=None, gt=3, lt=10) # validando query parameter
+        , c: Optional[int] = 0 # query parameter opcional
+    ):
+    soma = a+b+c
+    print('X-GEEK: {}'.format(x_geek))
+    return {'resultado': soma}
 
 if __name__ == '__main__':
     import uvicorn

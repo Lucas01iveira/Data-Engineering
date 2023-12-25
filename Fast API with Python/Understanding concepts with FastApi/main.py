@@ -12,7 +12,13 @@ from models import Curso # classe curso (referente ao projeto da nossa aplicaç�
 # acesso da documentação no navegador:
 # http://localhost:<numero_da_porta>/docs
 # http://localhost:<numero_da_porta>/redoc
-app = FastAPI()
+
+# podemos alterar os parâmetros da classe FastAPI para enriquecermos a documentação (consultar a classe para identificação dos parâmetros possíveis)
+app = FastAPI(
+    title= 'API didática - curso Udemy'
+    ,version= '0.0.1'
+    ,description='API criada com a finalidade de estudar as funções'
+)
 
 cursos = {
     1: {
@@ -26,7 +32,6 @@ cursos = {
         ,'horas': 75
     }
 }
-
 
 @app.get('/cursos') # definindo o endpoint (para método get)
 async def get_cursos():

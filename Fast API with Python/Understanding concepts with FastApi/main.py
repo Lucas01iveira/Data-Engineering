@@ -36,6 +36,7 @@ cursos = {
     }
 }
 
+# função auxiliar (didática) para ser executada antes da resposta de qualquer método (é possível incluir dependências nos métodos do aplicativo utilizando as sintaxes/funcionalidades da classe Depends)
 def conecta_database():
     print('Conectando database', end='')
     for _ in range(3):

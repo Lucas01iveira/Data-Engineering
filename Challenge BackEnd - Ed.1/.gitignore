@@ -1,0 +1,6 @@
+# files to be ignored 
+MyVirtualEnv
+teste.py
+teste_conexao_sql_Server.py
+venv_requirements.txt
+requirements.txt

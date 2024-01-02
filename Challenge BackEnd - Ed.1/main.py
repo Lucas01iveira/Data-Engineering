@@ -1,6 +1,8 @@
 # import de bibliotecas e módulos principais
 from fastapi import FastAPI
 from fastapi import Depends
+from fastapi import Path
+from fastapi import Response
 from fastapi import HTTPException, status
 
 from dependencies.dependencies import connect_to_SqlServer_db
@@ -31,14 +33,14 @@ async def get_videos(
 
     return df.transpose().to_dict()
 
-@app.get('/videos/{curso_id}')
+@app.get('/videos/{video_id}')
 async def get_video(
-    curso_id: int,
+    video_id: int = Path(default=None, gt=0, description='O id do vídeo deve ser um número maior que 0'),
     connection: Any = Depends(connect_to_SqlServer_db)
 ):  
     
     query = f'''
-            select * from cbe.EnderecosVideos where Id = {curso_id}
+            select * from cbe.EnderecosVideos where Id = {video_id}
         '''
     
     df = pd.read_sql(query, connection)
@@ -48,11 +50,34 @@ async def get_video(
     if len(df) == 0:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND
-            ,detail='Video não encontrado no database de trabalho'
+            ,detail='Vídeo não encontrado no database de trabalho'
         )
     else:
         return df.transpose().to_dict()
 
+@app.delete('/videos/{video_id}')
+async def delete_video(
+    video_id: int = Path(default=None, gt=0,description= 'O id do vídeo deve ser um número maior que 0'),
+    connection: Any = Depends(connect_to_SqlServer_db)
+):
+    query = f'''
+        select * from cbe.EnderecosVideos where Id = {video_id}
+    '''
+
+    df = pd.read_sql(query, connection)
+    if len(df) == 0:
+        raise HTTPException(
+            status_code= status.HTTP_404_NOT_FOUND
+            ,detail='Vídeo não encontrado no database de trabalaho'
+        )
+
+    else:
+        cursor = connection.cursor()
+        cmd = 'delete from cbe.EnderecosVideos where id = {}'.format(video_id)
+        cursor.execute(cmd)
+        cursor.commit()
+        return Response(status_code=status.HTTP_204_NO_CONTENT)
+        
 
 if __name__ == '__main__':
     import uvicorn

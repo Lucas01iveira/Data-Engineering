@@ -6,6 +6,7 @@ from fastapi import Response
 from fastapi import HTTPException, status
 
 from dependencies.dependencies import connect_to_SqlServer_db
+from models.VideoSchema import Video
 
 from typing import Any, Optional, List
 
@@ -68,7 +69,7 @@ async def delete_video(
     if len(df) == 0:
         raise HTTPException(
             status_code= status.HTTP_404_NOT_FOUND
-            ,detail='Vídeo não encontrado no database de trabalaho'
+            ,detail='Vídeo não encontrado no database de trabalho'
         )
 
     else:
@@ -78,6 +79,59 @@ async def delete_video(
         cursor.commit()
         return Response(status_code=status.HTTP_204_NO_CONTENT)
         
+@app.put('/videos/{video_id}')
+async def update_video(
+    video: Video,
+    video_id: int = Path(default=None, gt=0, description='O id do vídeo deve ser um número maior que 0'),
+    connection: Any = Depends(connect_to_SqlServer_db)
+):
+  query = 'select * from cbe.EnderecosVideos where id = {}'.format(video_id)
+  df = pd.read_sql(query, connection)
+
+  if len(df) == 0:
+      raise HTTPException(
+          status_code=status.HTTP_404_NOT_FOUND
+          ,detail='Vídeo não encontrado no database de trabalho'
+      )
+  else:
+    cmd = 'update cbe.EnderecosVideos set '
+    counter = 1
+    for column,value in dict(video).items():
+        if counter == len(dict(video)):
+            cmd += f'{column} = \'{value}\' '
+        else:
+            cmd += f'{column} = \'{value}\', '
+        counter += 1
+
+        
+    cmd += f'where id = {video_id}'
+
+    cursor = connection.cursor()
+    cursor.execute(cmd)
+    cursor.commit()
+    return Response(status_code=status.HTTP_202_ACCEPTED)
+
+@app.post('/videos')
+async def update_video(
+    video: Video,
+    connection: Any = Depends(connect_to_SqlServer_db)
+):
+ 
+  
+    cmd = f'insert into cbe.EnderecosVideos select '
+    counter = 1
+    for column,value in dict(video).items():
+        if counter == len(dict(video)):
+            cmd += f'\'{value}\' as {column} '
+        else:
+            cmd += f'\'{value}\' as {column}, '
+        counter += 1
+
+    cursor = connection.cursor()
+    cursor.execute(cmd)
+    cursor.commit()
+    return Response(status_code=status.HTTP_201_CREATED)
+
 
 if __name__ == '__main__':
     import uvicorn

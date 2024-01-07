@@ -116,7 +116,6 @@ async def update_video(
     video: Video,
     connection: Any = Depends(connect_to_SqlServer_db)
 ):
- 
   
     cmd = f'insert into cbe.EnderecosVideos select '
     counter = 1
@@ -127,6 +126,7 @@ async def update_video(
             cmd += f'\'{value}\' as {column}, '
         counter += 1
 
+    
     cursor = connection.cursor()
     cursor.execute(cmd)
     cursor.commit()

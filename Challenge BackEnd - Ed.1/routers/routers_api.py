@@ -7,17 +7,17 @@ from fastapi import HTTPException, status
 from dependencies.dependencies import connect_to_SqlServer_db
 from models.VideoSchema import Video
 
-from typing import Any, Optional, List
+from typing import Any, List
 import pandas as pd 
 
 
 router = APIRouter() # definição do objeto construtor das rotas
 
-@router.get('api/v1/teste')
+@router.get('teste')
 async def teste_api():
     return r"{'teste': 'testando', 'teste': 123}"
 
-@router.get('api/v1/videos')
+@router.get('videos')
 async def get_videos(
     connection: Any = Depends(connect_to_SqlServer_db)
 ):
@@ -30,7 +30,7 @@ async def get_videos(
 
     return df.transpose().to_dict()
 
-@router.get('api/v1/videos/{video_id}')
+@router.get('videos/{video_id}')
 async def get_video(
     video_id: int = Path(default=None, gt=0, description='O id do vídeo deve ser um número maior que 0'),
     connection: Any = Depends(connect_to_SqlServer_db)
@@ -52,7 +52,7 @@ async def get_video(
     else:
         return df.transpose().to_dict()
     
-@router.delete('api/v1/videos/{video_id}')
+@router.delete('videos/{video_id}')
 async def delete_video(
     video_id: int = Path(default=None, gt=0,description= 'O id do vídeo deve ser um número maior que 0'),
     connection: Any = Depends(connect_to_SqlServer_db)
@@ -75,7 +75,7 @@ async def delete_video(
         cursor.commit()
         return Response(status_code=status.HTTP_204_NO_CONTENT)
     
-@router.put('api/v1/videos/{video_id}')
+@router.put('videos/{video_id}')
 async def update_video(
     video: Video,
     video_id: int = Path(default=None, gt=0, description='O id do vídeo deve ser um número maior que 0'),
@@ -107,7 +107,7 @@ async def update_video(
     cursor.commit()
     return Response(status_code=status.HTTP_202_ACCEPTED)
   
-@router.post('api/v1/videos')
+@router.post('videos')
 async def update_video(
     video: Video,
     connection: Any = Depends(connect_to_SqlServer_db)

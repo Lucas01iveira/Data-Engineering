@@ -6,7 +6,7 @@ from routers import routers_api
 app = FastAPI()
 
 # implantação das rotas definidas no arquivo auxiliar dentro do aplicativo
-app.include_router(routers_api.router(), tags=['CRUD - Videos'])
+app.include_router(routers_api.router, tags=['CRUD - Videos'])
 
 if __name__ == '__main__':
     import uvicorn

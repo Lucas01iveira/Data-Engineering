@@ -8,16 +8,31 @@ from dependencies.dependencies import connect_to_sql_server_db
 from models.VideoSchema import Video
 
 import pandas as pd
-from typing import Any
+from typing import Any, Dict, TypedDict
 import json
 
 router_obj = APIRouter()
 
-@router_obj.get('/api/v2/teste')
+@router_obj.get(
+        path= '/api/v2/teste'
+        ,summary= 'Testando o aplicativo'
+        ,description= 'Endpoint desenvolvido para teste de conexão / funcionamento da aplicação dentro do servidor alocado'
+        ,tags= ['Introducao']
+        ,response_description='O retorno do endpoint corresponde simplesmente a um json informativo (não interfere no desenvolvimento/funcionamento dos demais endpoints da aplicação)'
+        ,status_code=status.HTTP_200_OK
+)
 async def api_teste():
     return {'msg': 'isso é um teste'}
 
-@router_obj.get('/api/v2/videos')
+@router_obj.get(
+        path= '/api/v2/videos'
+        ,summary= 'Leitura da base de endereços'
+        ,description= 'Efetua uma query de seleção de todas as informações de endereços cadastradas/inseridas na tabela cbe.EnderecosVideos, no banco ProjetosFrontEnd.'
+        ,response_description='O retorno do endpoint corresponde a uma lista de todos os endereços de vídeos presentes na tabela correspondente do banco de dados. Essa informação é repassada ao usuário em formato JSON.'
+        ,tags=['CRUD']
+        #,response_model= TypedDict[str, Video]
+        ,status_code=status.HTTP_200_OK
+)
 async def get_videos(
     conn : Any = Depends(connect_to_sql_server_db)
 ):
@@ -28,7 +43,8 @@ async def get_videos(
 
     return df.transpose().to_dict()
 
-@router_obj.get('/api/v2/videos/{video_id}')
+@router_obj.get(
+        path='/api/v2/videos/{video_id}')
 async def get_videos(
     video_id: int = Path(default=None, gt=0, description='O id do vídeo deve ser positivo')
     ,conn : Any = Depends(connect_to_sql_server_db)

@@ -9,8 +9,8 @@ class Video(BaseModel):
 
     @validator('Titulo')
     def valida_titulo(cls, value):
-        if not value.title():
-            raise ValueError('O título precisa estar em formato capitalize')
+        if not value.istitle():
+            raise ValueError('O título precisa estar em formato title')
     
     @validator('Url')
     def valida_url(cls,value):

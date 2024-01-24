@@ -27,11 +27,15 @@ async def api_teste():
 @router_obj.get(
         path= '/api/v2/videos'
         ,summary= 'Leitura da base de endereços'
-        ,description= 'Efetua uma query de seleção de todas as informações de endereços cadastradas/inseridas na tabela cbe.EnderecosVideos, no banco ProjetosFrontEnd.'
-        ,response_description='O retorno do endpoint corresponde a uma lista de todos os endereços de vídeos presentes na tabela correspondente do banco de dados. Essa informação é repassada ao usuário em formato JSON.'
+        ,description= 'Retorna uma consulta de seleção de todas as informações de endereços cadastradas/inseridas na tabela cbe.EnderecosVideos, no banco ProjetosFrontEnd.'
+        ,response_description='''O retorno do endpoint corresponde a uma lista de todos os endereços de vídeos presentes na tabela correspondente do banco de dados. Essa informação é repassada ao usuário em formato JSON. 
+        
+        Códigos de resposta possíveis:
+            - 200: Base de endereços de vídeos e informações complementares retornada com sucesso.
+        '''
         ,tags=['CRUD']
         #,response_model= TypedDict[str, Video]
-        ,status_code=status.HTTP_200_OK
+        #,status_code=status.HTTP_200_OK
 )
 async def get_videos(
     conn : Any = Depends(connect_to_sql_server_db)
@@ -44,8 +48,20 @@ async def get_videos(
     return df.transpose().to_dict()
 
 @router_obj.get(
-        path='/api/v2/videos/{video_id}')
-async def get_videos(
+        path='/api/v2/videos/{video_id}'
+        ,summary='Extração de informações de um vídeo específico'
+        ,description='Efetua uma consulta de seleção das informações de um vídeo em específico, identificado pelo Id. Vale destacar que o Id deve ser um número inteiro positivo.'
+        ,response_description='''O retorno do endpoint corresponde ao endereço do vídeo (e suas informações complementares), dentro da base de dados, correspondente ao id informado pelo usuário. 
+        
+        Códigos de resposta possíveis: 
+            - 200: O Id informado está mapeado na base de dados e as informações são retornadas;
+            - 404: O Id informado não está mapeado na base de dados e não informações a serem apresentadas;
+            - 422: O Id informado pelo usuário no endpoint não satisfaz os requisitos de validação.
+        '''
+        ,tags=['CRUD']
+        #,response_model= Video
+)
+async def get_video(
     video_id: int = Path(default=None, gt=0, description='O id do vídeo deve ser positivo')
     ,conn : Any = Depends(connect_to_sql_server_db)
 ):
@@ -62,8 +78,23 @@ async def get_videos(
     else:
         return df.transpose().to_dict()
     
-@router_obj.post('/api/v2/videos')
-async def get_videos(
+@router_obj.post(
+        path='/api/v2/videos'
+        ,summary='Criação de novo endereço na base'
+        ,description='''O método post, correspondente a esse endpoint da API, é responsável por gerar uma nova linha na tabela cbe.EnderecosVideos contendo as 3 informações principais do projeto: Titulo, Descricao e URL. Essas informações devem ser enviadas no body da requisição e, com exceção do campo de descrição, todas as demais são obrigatórias e devem satisfazer às condições de validação. Não é necessário informar o Id do endereço que estará sendo parametrizado pois a tabela no SQL Server já foi configurada para gerar um novo Id a cada insert.
+        
+        Condições de validação:
+            - "Titulo" deve estar em formato 'title' (inicial de cada palavra em letra maiúscula);
+            - "Descricao" é opcional;
+            - "Url" deve ter 'projetosfrontend.com' como servidor de hospedagem do aplicativo final web (exemplo: https://www.projetosfrontend.com.br/teste).
+        '''
+        ,response_description='''Códigos de resposta da chamada do endpoint:
+            - 201: O body da requisição foi validado corretamente e o novo cadastro foi inserido no banco
+            - 422: O body da requisição informado pelo usuário não satisfaz os requisitos de validação.
+        '''
+        ,tags=['CRUD']
+)
+async def post_video(
     video: Video
     ,conn : Any = Depends(connect_to_sql_server_db)
 ): 
@@ -83,8 +114,25 @@ async def get_videos(
     
     return Response(status_code=status.HTTP_201_CREATED)
 
-@router_obj.put('/api/v2/videos/{video_id}')
-async def get_videos(
+@router_obj.put(
+        path='/api/v2/videos/{video_id}'
+        ,summary='Atualiza informações do Id especificado'
+        ,description='''Atualiza, no registro com id igual a 'video_id' (passado pelo usuário), os campos "Titulo", "Descricao" e "Url" com os valores enviados pelo usuário no body da requisição. As informações no body seguem as mesmas restrições e obrigatoriedades do endpoint de post.
+
+        Condições de validação:
+            - "Titulo" deve estar em formato 'title' (inicial de cada palavra em letra maiúscula);
+            - "Descricao" é opcional;
+            - "Url" deve ter 'projetosfrontend.com' como servidor de hospedagem do aplicativo final web (exemplo: https://www.projetosfrontend.com.br/teste).
+        '''
+        ,response_description='''Códigos de resposta:
+            - 404: O Id informado não está mapeado na base de dados e não informações a serem apresentadas;
+            - 422: O Id informado pelo usuário no endpoint não satisfaz os requisitos de validação.
+        
+        Em caso de sucesso, a API irá retornar um JSON indicando as novas informações corretamente atualizadas para o Id especificado.
+        '''
+        ,tags=['CRUD']
+)
+async def put_video(
     video: Video
     ,video_id: int = Path(default=None, gt=0, description='O id do vídeo deve ser positivo')
     ,conn : Any = Depends(connect_to_sql_server_db)

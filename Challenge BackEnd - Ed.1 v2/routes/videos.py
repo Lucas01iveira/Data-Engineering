@@ -14,7 +14,7 @@ import json
 router_obj = APIRouter()
 
 @router_obj.get(
-        path= '/api/v2/teste'
+        path= '/api/v2/videos/teste'
         ,summary= 'Testando o aplicativo.'
         ,description= 'Endpoint desenvolvido para teste de conexão / funcionamento da aplicação dentro do servidor alocado.'
         ,tags= ['Introducao']

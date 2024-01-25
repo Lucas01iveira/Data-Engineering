@@ -112,7 +112,15 @@ async def post_video(
     cursor.execute(cmd)
     cursor.commit()
     
-    return Response(status_code=status.HTTP_201_CREATED)
+    df_ids = pd.read_sql('select distinct id from cbe.EnderecosVideos',conn)
+    df_ids.set_index('id', inplace=True)
+    new_item_id = max(df_ids.index.to_list())
+
+    query = f'select * from cbe.EnderecosVideos where id = {new_item_id}'
+    df = pd.read_sql(query, conn)
+    df.set_index('id', inplace=True)
+    return df.transpose().to_dict()
+    #return Response(status_code=status.HTTP_201_CREATED)
 
 @router_obj.put(
         path='/api/v2/videos/{video_id}'

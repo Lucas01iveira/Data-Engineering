@@ -1,3 +1,6 @@
+drop table if exists cbe.EnderecosVideos
+go
+
 create table cbe.EnderecosVideos 
 (
 	id int not null identity(1,1)

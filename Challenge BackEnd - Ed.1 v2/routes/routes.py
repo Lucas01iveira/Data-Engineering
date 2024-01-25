@@ -86,6 +86,7 @@ async def get_video(
             - "Titulo" deve estar em formato 'title' (inicial de cada palavra em letra maiúscula);
             - "Descricao" é opcional;
             - "Url" deve ter 'aluraflix.com' como servidor de hospedagem do aplicativo final web e o início do endpoint deve conter a indicação do recurso 'videos' (exemplo: https://www.aluraflix.com.br/videos/teste).
+            - "CategoriaId" é opcional, mas deve ser um valor inteiro positivo.
 
         Códigos de resposta possíveis:
             - 200: O body da requisição foi validado corretamente e o novo cadastro foi inserido no banco;
@@ -131,6 +132,7 @@ async def post_video(
             - "Titulo" deve estar em formato 'title' (inicial de cada palavra em letra maiúscula);
             - "Descricao" é opcional;
             - "Url" deve ter 'projetosfrontend.com' como servidor de hospedagem do aplicativo final web (exemplo: https://www.projetosfrontend.com.br/teste).
+            - "CategoriaId" é opcional, mas deve ser um valor inteiro positivo.
 
         Códigos de resposta possíveis:
             - 404: O Id informado não está mapeado na base de dados e não informações a serem apresentadas;

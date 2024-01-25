@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 
-from routes.routes import router_obj
+from routes.videos import router_obj
+from routes.categoria import router_obj2
 
 app = FastAPI(
     title='Armazenamento de Url\'s - AluraFlix'
@@ -10,6 +11,7 @@ app = FastAPI(
     ,openapi_url='/armazenamentourls.json'
 )
 app.include_router(router=router_obj, tags=['APP Geral'])
+app.include_router(router=router_obj2, tags=['APP Geral'])
 
 if __name__ == '__main__':
     import uvicorn

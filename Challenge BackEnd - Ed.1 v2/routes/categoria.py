@@ -51,7 +51,8 @@ async def get_categorias(
             - 404: Nenhum registro com Id informado no endpoint foi encontrado;
             - 422: O parâmetro incluído no endpoint da requisição não satisfaz às regras de validação.
         '''
-        ,tags=['CRUD - Categoria'])
+        ,tags=['CRUD - Categoria']
+)
 async def get_categoria(
     categoria_id: int = Path(default=None, gt=0, description='O Id da categoria deve ser um inteiro positivo.')
     ,conn: Any = Depends(connect_to_sql_server_db)
@@ -68,6 +69,37 @@ async def get_categoria(
     else:
         df['CategoriaId'] = df['Id']
         df.set_index('Id', inplace=True)
+        return df.transpose().to_dict()
+
+@router_obj2.get(
+        path='/api/v2/categoria/{categoria_id}/videos'
+        ,summary='Retorno de registros vinculados a uma categoria.'
+        ,description='''Efetua uma leitura na tabela cbe.EnderecosVideos e retorna as informações de todos os vídeos cujo Id de categoria seja igual ao parâmetro 'categoria_id' (o qual deve ser um inteiro positivo).
+        
+        Códigos de resposta possíveis:
+            - 200: Requisição processada com sucesso e dados retornados corretamente;
+            - 404: Não foi encontrado nenhum registro correspondente ao Id informado;
+            - 422: O Id informado não satisfaz às regras de validação.
+        '''
+        ,tags=['CRUD - Categoria']
+        
+)
+async def get_videos_por_categoria(
+    categoria_id: int = Path(default=None, gt=0, description='O Id da categoria deve ser um inteiro positivo.')
+    ,conn: Any = Depends(connect_to_sql_server_db)
+):
+    query = f'''select * from cbe.EnderecosVideos where CategoriaId = {categoria_id}'''
+    df = pd.read_sql(query, conn)
+
+    if len(df) == 0:
+        return HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND
+            ,detail='Não existe nenhum vídeo com o id de categoria informado'
+        ) 
+    else:
+        df['VideoId'] = df['Id']
+        df.set_index('Id', inplace=True)
+
         return df.transpose().to_dict()
 
 @router_obj2.post(

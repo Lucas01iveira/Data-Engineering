@@ -124,7 +124,8 @@ async def post_video(
             - "Descricao" é opcional;
             - "Url" deve ter 'projetosfrontend.com' como servidor de hospedagem do aplicativo final web (exemplo: https://www.projetosfrontend.com.br/teste).
         '''
-        ,response_description='''Códigos de resposta:
+        ,response_description='''
+        Códigos de resposta:
             - 404: O Id informado não está mapeado na base de dados e não informações a serem apresentadas;
             - 422: O Id informado no endpoint não satisfaz aos requisitos de validação.
         

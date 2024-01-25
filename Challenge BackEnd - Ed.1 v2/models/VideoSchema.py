@@ -6,6 +6,7 @@ class Video(BaseModel):
     Titulo: str
     Descricao: Optional[str]
     Url: str
+    CategoriaId: Optional[int]
 
     @validator('Titulo')
     def valida_titulo(cls, value):
@@ -20,5 +21,12 @@ class Video(BaseModel):
 
         if not pattern.match(value):
             raise ValueError('A Url informada é inválida. Por favor, consulte a documentação')
+        else:
+            return value
+    
+    @validator('CategoriaId')
+    def valida_categoria(cls,value):
+        if value <= 0 :
+            raise ValueError('O id da categoria deve ser um inteiro positivo')
         else:
             return value

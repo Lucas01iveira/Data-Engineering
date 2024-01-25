@@ -41,8 +41,9 @@ async def get_videos(
     query = 'select * from cbe.EnderecosVideos'
 
     df = pd.read_sql(query, conn)
-    df.set_index('id', inplace=True)
-
+    df['VideoId'] = df['Id']
+    df.set_index('Id', inplace=True)
+    
     return df.transpose().to_dict()
 
 @router_obj.get(
@@ -62,10 +63,11 @@ async def get_video(
     video_id: int = Path(default=None, gt=0, description='O id do vídeo deve ser positivo')
     ,conn : Any = Depends(connect_to_sql_server_db)
 ):
-    query = f'select * from cbe.EnderecosVideos where id = {video_id}'
+    query = f'select * from cbe.EnderecosVideos where Id = {video_id}'
 
     df = pd.read_sql(query, conn)
-    df.set_index('id', inplace=True)
+    df['VideoId'] = df['Id']
+    df.set_index('Id', inplace=True)
 
     if len(df) == 0:
         raise HTTPException(
@@ -83,7 +85,7 @@ async def get_video(
         Condições de validação:
             - "Titulo" deve estar em formato 'title' (inicial de cada palavra em letra maiúscula);
             - "Descricao" é opcional;
-            - "Url" deve ter 'aluraflix.com' como servidor de hospedagem do aplicativo final web (exemplo: https://www.aluraflix.com.br/teste).
+            - "Url" deve ter 'aluraflix.com' como servidor de hospedagem do aplicativo final web e o início do endpoint deve conter a indicação do recurso 'videos' (exemplo: https://www.aluraflix.com.br/videos/teste).
 
         Códigos de resposta possíveis:
             - 200: O body da requisição foi validado corretamente e o novo cadastro foi inserido no banco;
@@ -110,13 +112,14 @@ async def post_video(
     cursor.execute(cmd)
     cursor.commit()
     
-    df_ids = pd.read_sql('select distinct id from cbe.EnderecosVideos',conn)
-    df_ids.set_index('id', inplace=True)
+    df_ids = pd.read_sql('select distinct Id from cbe.EnderecosVideos',conn)
+    df_ids.set_index('Id', inplace=True)
     new_item_id = max(df_ids.index.to_list())
 
-    query = f'select * from cbe.EnderecosVideos where id = {new_item_id}'
+    query = f'select * from cbe.EnderecosVideos where Id = {new_item_id}'
     df = pd.read_sql(query, conn)
-    df.set_index('id', inplace=True)
+    df['VideoId'] = df['Id']
+    df.set_index('Id', inplace=True)
     return df.transpose().to_dict()
 
 @router_obj.put(
@@ -167,7 +170,8 @@ async def put_video(
         cursor.commit()
         
         df = pd.read_sql(query, conn)
-        df.set_index('id', inplace=True)
+        df['VideoId'] = df['Id']
+        df.set_index('Id', inplace=True)
         return df.transpose().to_dict()
 
 @router_obj.delete(
@@ -186,7 +190,7 @@ async def delete_video(
     video_id: int = Path(default=None, gt=0, description='O id do video deve ser um inteiro maior que 0')
     ,conn: int = Depends(connect_to_sql_server_db)
 ):
-    query = f'select * from cbe.EnderecosVideos where id = {video_id}'
+    query = f'select * from cbe.EnderecosVideos where Id = {video_id}'
 
     df = pd.read_sql(query, conn)
 
@@ -196,7 +200,7 @@ async def delete_video(
             ,detail='Não existe nenhum vídeo com o id informado'
         )
     else:
-        cmd = f'delete from cbe.EnderecosVideos where id = {video_id}'
+        cmd = f'delete from cbe.EnderecosVideos where Id = {video_id}'
 
         cursor = conn.cursor()
         cursor.execute(cmd)

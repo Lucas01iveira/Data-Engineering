@@ -83,7 +83,7 @@ async def get_video(
         Condições de validação:
             - "Titulo" deve estar em formato 'title' (inicial de cada palavra em letra maiúscula);
             - "Descricao" é opcional;
-            - "Url" deve ter 'projetosfrontend.com' como servidor de hospedagem do aplicativo final web (exemplo: https://www.projetosfrontend.com.br/teste).
+            - "Url" deve ter 'aluraflix.com' como servidor de hospedagem do aplicativo final web (exemplo: https://www.aluraflix.com.br/teste).
 
         Códigos de resposta possíveis:
             - 200: O body da requisição foi validado corretamente e o novo cadastro foi inserido no banco;

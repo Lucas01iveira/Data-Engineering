@@ -16,7 +16,7 @@ class Video(BaseModel):
     
     @validator('Url')
     def valida_url(cls,value):
-        pattern = re.compile('(http(s)?://)?(www.)?aluraflix.com(.br)?')
+        pattern = re.compile('(http(s)?://)?(www.)?aluraflix.com(.br)?/videos')
 
         if not pattern.match(value):
             raise ValueError('A Url informada é inválida. Por favor, consulte a documentação')

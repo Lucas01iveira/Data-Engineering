@@ -6,7 +6,7 @@ class Video(BaseModel):
     Titulo: str
     Descricao: Optional[str]
     Url: str
-    CategoriaId: Optional[int]
+    CategoriaId: Optional[str]
 
     @validator('Titulo')
     def valida_titulo(cls, value):
@@ -26,7 +26,9 @@ class Video(BaseModel):
     
     @validator('CategoriaId')
     def valida_categoria(cls,value):
-        if value <= 0 :
+        if value.strip() == '':
+            return 1
+        elif int(value) <= 0 :
             raise ValueError('O id da categoria deve ser um inteiro positivo')
         else:
-            return value
+            return int(value)

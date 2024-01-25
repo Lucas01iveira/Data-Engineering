@@ -11,6 +11,8 @@ class Video(BaseModel):
     def valida_titulo(cls, value):
         if not value.istitle():
             raise ValueError('O título precisa estar em formato title')
+        else:
+            return value
     
     @validator('Url')
     def valida_url(cls,value):
@@ -18,3 +20,5 @@ class Video(BaseModel):
 
         if not pattern.match(value):
             raise ValueError('A Url informada é inválida. Por favor, consulte a documentação')
+        else:
+            return value

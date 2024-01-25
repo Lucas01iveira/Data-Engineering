@@ -33,7 +33,7 @@ async def api_teste():
         '''
         ,response_description='''O retorno do endpoint corresponde a uma lista de todos os endereços de vídeos presentes na tabela correspondente do banco de dados. Essa informação é repassada ao usuário em formato JSON. 
         '''
-        ,tags=['CRUD']
+        ,tags=['CRUD - Videos']
 )
 async def get_videos(
     conn : Any = Depends(connect_to_sql_server_db)
@@ -57,7 +57,7 @@ async def get_videos(
             - 404: O Id informado não está mapeado na base de dados e não há informações a serem apresentadas;
             - 422: O Id informado no endpoint não satisfaz aos requisitos de validação.
         '''
-        ,tags=['CRUD']
+        ,tags=['CRUD - Videos']
 )
 async def get_video(
     video_id: int = Path(default=None, gt=0, description='O id do vídeo deve ser positivo')
@@ -93,7 +93,7 @@ async def get_video(
             - 422: O body da requisição não satisfaz aos requisitos de validação.
         '''
         ,response_description='A requisição tem como resposta o JSON com o id do novo registro inserido no banco de dados, juntamente com as informações acrescentadas.'
-        ,tags=['CRUD']
+        ,tags=['CRUD - Videos']
 )
 async def post_video(
     video: Video
@@ -139,7 +139,7 @@ async def post_video(
             - 422: O Id informado no endpoint não satisfaz aos requisitos de validação.
         '''
         ,response_description='A requisição tem como resposta o JSON com o id do registro alterado no banco de dados, juntamente com as informações atualizadas.'
-        ,tags=['CRUD']
+        ,tags=['CRUD - Videos']
 )
 async def put_video(
     video: Video
@@ -186,7 +186,7 @@ async def put_video(
             - 404: O Id informado não está mapeado na base de dados e não informações a serem apresentadas;
             - 422: O Id informado no endpoint não satisfaz aos requisitos de validação.
         '''
-        ,tags=['CRUD']
+        ,tags=['CRUD - Videos']
 )
 async def delete_video(
     video_id: int = Path(default=None, gt=0, description='O id do video deve ser um inteiro maior que 0')

@@ -1,5 +1,6 @@
-from fastapi import Depends
 from fastapi import APIRouter
+from fastapi import Depends
+from fastapi import Query
 from fastapi import Path
 from fastapi import Response
 from fastapi import HTTPException, status
@@ -45,6 +46,25 @@ async def get_videos(
     df.set_index('Id', inplace=True)
     
     return df.transpose().to_dict()
+
+@router_obj.get('/api/v2/videos/search')
+async def get_videos_por_nome(
+    nome: str 
+    ,conn: Any = Depends(connect_to_sql_server_db)
+):
+    query = f'select * from cbe.EnderecosVideos where Titulo = \'{nome}\''
+    df = pd.read_sql(query, conn)
+    
+    if len(df) == 0:
+        return HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND
+            ,detail='Nenhum vídeo com o título informado foi encontrado'
+        )
+    else:
+        df['VideoId'] = df['Id']
+        df.set_index('Id', inplace=True)
+        return df.transpose().to_dict()
+
 
 @router_obj.get(
         path='/api/v2/videos/{video_id}'

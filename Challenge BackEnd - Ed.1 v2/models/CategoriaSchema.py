@@ -3,7 +3,7 @@ from typing import Optional
 
 class Categoria(BaseModel):
     DescricaoCategoria: str
-    Cor: Optional[str]
+    Cor: str
 
     @validator('Cor')
     def valida_cor(cls, value):

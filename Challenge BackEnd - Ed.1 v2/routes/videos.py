@@ -123,12 +123,19 @@ async def post_video(
     cmd = 'insert into cbe.EnderecosVideos select '
     count = 1 
     for key, value in dict(video).items():
-        if count == len(dict(video).items()):
-            cmd += f'\'{value}\' as {key}'
+        if value is None:
+            if count == len(dict(video).items()):
+                cmd += f'null as {key}'
+            else:
+                cmd += f'null as {key}, '
         else:
-            cmd += f'\'{value}\' as {key}, '
+            if count == len(dict(video).items()):
+                cmd += f'\'{value}\' as {key}'
+            else:
+                cmd += f'\'{value}\' as {key}, '
         count+=1
 
+    #return cmd
     cursor = conn.cursor()
     cursor.execute(cmd)
     cursor.commit()
@@ -179,14 +186,21 @@ async def put_video(
         cmd = 'update cbe.EnderecosVideos set '
         count = 1 
         for key, value in dict(video).items():
-            if count == len(dict(video).items()):
-                cmd += f'{key} = \'{value}\''
+            if value is None:
+                if count == len(dict(video).items()):
+                    cmd += f'{key} = null'
+                else:
+                    cmd += f'{key} = null, '
             else:
-                cmd += f'{key} = \'{value}\', '
+                if count == len(dict(video).items()):
+                    cmd += f'{key} = \'{value}\''
+                else:
+                    cmd += f'{key} = \'{value}\', '
             count+=1
 
         cmd+= f' where id = {video_id}'
-    
+
+        # return cmd
         cursor = conn.cursor()
         cursor.execute(cmd)
         cursor.commit()

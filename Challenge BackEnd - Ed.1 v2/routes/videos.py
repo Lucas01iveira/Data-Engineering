@@ -1,6 +1,5 @@
 from fastapi import APIRouter
 from fastapi import Depends
-from fastapi import Query
 from fastapi import Path
 from fastapi import Response
 from fastapi import HTTPException, status
@@ -9,8 +8,7 @@ from dependencies.dependencies import connect_to_sql_server_db
 from models.VideoSchema import Video
 
 import pandas as pd
-from typing import Any, Dict, TypedDict
-import json
+from typing import Any
 
 router_obj = APIRouter()
 

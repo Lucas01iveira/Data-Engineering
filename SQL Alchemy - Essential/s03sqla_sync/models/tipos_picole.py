@@ -4,7 +4,7 @@ import datetime
 
 from models.model_base import ModelBase
 
-def TipoPicole(ModelBase):
+class TipoPicole(ModelBase):
     __table_name__ = 'tipos_picole'
 
     id: int = sa.Column(sa.Integer, primary_key=True, nullable=False, autoincrement=True)

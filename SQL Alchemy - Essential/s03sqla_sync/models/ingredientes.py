@@ -4,7 +4,7 @@ import datetime
 
 from models.model_base import ModelBase
 
-class Ingredientes(ModelBase):
+class Ingrediente(ModelBase):
     __table_name__ = 'ingredientes'
 
     id: int = sa.Column(sa.Integer, primary_key=True, autoincrement=True, nullable=False)

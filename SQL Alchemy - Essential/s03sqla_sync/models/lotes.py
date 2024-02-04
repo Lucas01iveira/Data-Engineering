@@ -13,7 +13,7 @@ class Lote(ModelBase):
     data_criacao: datetime = sa.Column(sa.DateTime, index=True, default=datetime.now, nullable=False)
 
     id_tipo_picole: int = sa.Column(sa.Integer, sa.ForeignKey('tipos_picole.id')) # foreign_key -> tabela.campo (que esteja dentro da classe importada)
-    tipo_picole: TipoPicole = orm.relationship('TipoPicole', lazy='joined') # configuração interna do SqlAlchemy (orm utilizado para mapeamento de objetos relacionais)
+    tipo_picole: orm.Mapped[TipoPicole] = orm.relationship('TipoPicole', lazy='joined') # configuração interna do SqlAlchemy (orm utilizado para mapeamento de objetos relacionais)
     quantidade: int = sa.Column(sa.Integer, nullable=False)
 
     def __repr__(self) -> str:

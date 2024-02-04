@@ -8,7 +8,7 @@ from typing import Optional # typing hint
 from sqlalchemy.orm import Session 
 from sqlalchemy.future.engine import Engine
 
-from s03sqla_sync.models.model_base import ModelBase # será necessário para criar/deletar tabela no banco de dados (os demais models irão ser herdados dele)
+from models.model_base import ModelBase # será necessário para criar/deletar tabela no banco de dados (os demais models irão ser herdados dele)
 
 __engine: Optional[Engine] = None # criando uma variável global (ainda sem valor bruto; apenas declaração e indicação de que é do tipo Engine)
 

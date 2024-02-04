@@ -1,6 +1,6 @@
 import sqlalchemy as sa 
 
-import datetime 
+from datetime import datetime 
 
 from models.model_base import ModelBase
 

@@ -1,7 +1,7 @@
 import sqlalchemy as sa 
 import sqlalchemy.orm as orm
 
-import datetime 
+from datetime import datetime 
 
 from models.model_base import ModelBase
 from models.tipos_picole import TipoPicole

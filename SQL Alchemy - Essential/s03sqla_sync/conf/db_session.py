@@ -29,8 +29,9 @@ def create_engine() -> Engine:
     # sa.create_engine(conn_str)
 
     # 2) caso o banco possua Windows Auth (entrada direta)
-    conn_str = r'mssql+pyodbc://DESKTOP-E29RO7M\SQLEXPRESS/CursoSqlAlchemy?driver=SQL+Server'
+    conn_str = r'mssql+pyodbc://DESKTOP-E29RO7M\SQLEXPRESS/CursoSqlAlchemy?driver=ODBC+Driver+17+for+SQL+Server'
     # é muito importante lembrar de especificar o driver, que pode ser consultado no seguinte path: Control Panel > Systems and Security > Administrative Tools > ODBC Data Sources > System DSN tab > Add
+    # obs.: estamos usando a versão mais recente do driver sql (2017 // o driver mais antigo, 'SQL Server', não estava tendo a correspondência correta com o SqlAlchemy)
 
     __engine = sa.create_engine(url= conn_str, echo=False)
 
@@ -55,7 +56,7 @@ def create_session() -> Session:
 
     return session 
 
-def create_tables() -> None:
+def create_tables():
     '''
     Função que utilizaremos para criar tabelas no banco de dados.
     '''
@@ -63,7 +64,7 @@ def create_tables() -> None:
     global __engine 
 
     if not __engine:
-        create_engine
+        __engine = create_engine()
 
     import models.__all_models
     ModelBase.metadata.drop_all(__engine) # deleta todas as tabelas do banco

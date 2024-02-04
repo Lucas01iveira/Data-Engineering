@@ -7,7 +7,7 @@ from models.model_base import ModelBase
 from models.tipos_picole import TipoPicole
 
 class Lote(ModelBase):
-    __table_name__ = 'lotes'
+    __tablename__ = 'lotes'
 
     id: int = sa.Column(sa.Integer, primary_key=True, autoincrement=True, nullable=False)
     data_criacao: datetime = sa.Column(sa.DateTime, index=True, default=datetime.now, nullable=False)

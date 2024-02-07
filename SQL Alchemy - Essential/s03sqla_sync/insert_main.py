@@ -93,7 +93,7 @@ def insert_conservantes() -> None:
     print(f'DEscricao: {conserv.descricao}')
 
 # Insert -> Revendedores
-def insert_revendedores() -> None:
+def insert_revendedores() -> None: # -> Revendedor:
 
     cnpj: str = input('Informe o cnpj do revendedor: ')
     razao_social: str = input('Informe a razão social do revendedor: ')
@@ -111,6 +111,7 @@ def insert_revendedores() -> None:
     print(f'Razao Social: {r.razao_social}')
     print(f'Contato: {r.contato}')
 
+    # return r
 
 if __name__ == '__main__':
     #insert_aditivo_nutritivo()

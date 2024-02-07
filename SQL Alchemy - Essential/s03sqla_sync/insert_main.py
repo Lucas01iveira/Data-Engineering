@@ -2,7 +2,9 @@ from conf.db_session import create_session
 from models.aditivo_nutritivo import AditivoNutritivo
 from models.sabores import Sabor
 from models.tipos_embalagem import TipoEmbalagem
+from models.tipos_picole import TipoPicole
 
+# Insert -> Aditivo Nutritivo
 def insert_aditivo_nutritivo() -> None:
     print('Cadastrando aditivo nutritivo...')
 
@@ -24,6 +26,7 @@ def insert_aditivo_nutritivo() -> None:
     print(f'Nome: {an.nome}')
     print(f'Formula Química: {an.formula_quimica}')
 
+# Insert -> Novo Sabor
 def insert_sabor() -> None:
 
     nome: str = input('Informe o sabor do picolé: ')
@@ -39,6 +42,7 @@ def insert_sabor() -> None:
     print('Data: {}'.format(novo_sabor.data_criacao))
     print('Nome: {}'.format(novo_sabor.nome))
 
+# Insert -> Tipo Embalagem
 def insert_tipo_embalagem():
 
     nome_embalagem: str = input('Informe o nome da embalagem: ')
@@ -54,8 +58,24 @@ def insert_tipo_embalagem():
     print(f'Data: {te.data_criacao}')
     print(f'Nome: {te.nome}')
 
+# Insert Tipo Picole
+def insert_tipo_picole() -> None:
+
+    nome_tipo_picole: str = input('Informe o nome do tipo de picolé: ')
+
+    tp: TipoPicole = TipoPicole(nome= nome_tipo_picole)
+
+    with create_session() as s:
+        s.add(tp)
+        s.commit()
+
+    print(f'ID: {tp.id}')
+    print(f'Data: {tp.data_criacao}')
+    print(f'Nome: {tp.nome}')
+
 
 if __name__ == '__main__':
     #insert_aditivo_nutritivo()
     #insert_sabor()
-    insert_tipo_embalagem()
+    #insert_tipo_embalagem()
+    insert_tipo_picole()

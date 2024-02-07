@@ -3,6 +3,8 @@ from models.aditivo_nutritivo import AditivoNutritivo
 from models.sabores import Sabor
 from models.tipos_embalagem import TipoEmbalagem
 from models.tipos_picole import TipoPicole
+from models.conservantes import Conservante
+from models.revendedores import Revendedor
 
 # Insert -> Aditivo Nutritivo
 def insert_aditivo_nutritivo() -> None:
@@ -73,9 +75,47 @@ def insert_tipo_picole() -> None:
     print(f'Data: {tp.data_criacao}')
     print(f'Nome: {tp.nome}')
 
+# Insert -> Conservantes
+def insert_conservantes() -> None:
+
+    nome: str = input('Informe o nome do conservante: ')
+    descricao: str = input('Informe a descrição do conservante: ')
+
+    conserv: Conservante = Conservante(nome=nome, descricao=descricao)
+
+    with create_session() as session:
+        session.add(conserv)
+        session.commit()
+    
+    print(f'ID: {conserv.id}')
+    print(f'Data: {conserv.data_criacao}')
+    print(f'Nome: {conserv.nome}')
+    print(f'DEscricao: {conserv.descricao}')
+
+# Insert -> Revendedores
+def insert_revendedores() -> None:
+
+    cnpj: str = input('Informe o cnpj do revendedor: ')
+    razao_social: str = input('Informe a razão social do revendedor: ')
+    contato: str = input('Informe o contato do revendedor: ')
+
+    r: Revendedor = Revendedor(cnpj=cnpj, razao_social=razao_social, contato=contato)
+
+    with create_session() as session:
+        session.add(r)
+        session.commit()
+    
+    print(f'ID: {r.id}')
+    print(f'Data: {r.data_criacao}')
+    print(f'Cnpj: {r.cnpj}')
+    print(f'Razao Social: {r.razao_social}')
+    print(f'Contato: {r.contato}')
+
 
 if __name__ == '__main__':
     #insert_aditivo_nutritivo()
     #insert_sabor()
     #insert_tipo_embalagem()
-    insert_tipo_picole()
+    #insert_tipo_picole()
+    #insert_conservantes()
+    insert_revendedores()

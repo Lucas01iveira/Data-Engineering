@@ -40,7 +40,7 @@ def create_engine() -> Engine:
 # função responsável por criar a sessão
 def create_session() -> Session:
     '''
-    Com a engine, ue representa justamente a configuração de conexão e que foi criada na função anterior, podemos criar a 'sessão de conexão' ao banco de dados com o auxílio da presente função.
+    Com a engine, que representa justamente a configuração de conexão e que foi criada na função anterior, podemos criar a 'sessão de conexão' ao banco de dados com o auxílio da presente função.
 
     É essa session que representa a conexão em si.
     '''

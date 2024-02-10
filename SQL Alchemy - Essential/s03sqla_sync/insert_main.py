@@ -1,10 +1,16 @@
 from conf.db_session import create_session
+
+# Inserts / Parte 1 (entidades sem relacionamento)
 from models.aditivo_nutritivo import AditivoNutritivo
 from models.sabores import Sabor
 from models.tipos_embalagem import TipoEmbalagem
 from models.tipos_picole import TipoPicole
 from models.conservantes import Conservante
 from models.revendedores import Revendedor
+
+# Inserts / Parte 2 (entidades com vínculo estrangeiro)
+from models.lotes import Lote
+from models.notas_fiscais import NotaFiscal
 
 # Insert -> Aditivo Nutritivo
 def insert_aditivo_nutritivo() -> None:
@@ -113,10 +119,55 @@ def insert_revendedores() -> None: # -> Revendedor:
 
     # return r
 
+# Insert -> Lotes
+def insert_lote() -> None:
+
+    id_tipo_picole: int = input('Informe o Id do tipo picole: ')
+    quantidade: int = input('Informe a quantidade de picolés: ')
+
+    lote = Lote(id_tipo_picole=id_tipo_picole, quantidade=quantidade)
+
+    with create_session() as session:
+        session.add(lote)
+        session.commit()
+
+    print(f'ID: {lote.id}')
+    print(f'Data: {lote.data_criacao}')
+    print(f'Id Tipo Picole: {lote.id_tipo_picole}')
+    print(f'Quantidade: {lote.quantidade}')
+
+# Insert -> Nota Fiscal
+def insert_nota_fiscal() -> None:
+
+    valor: float = float(input('Informe o valor do produto: '))
+    numero_serie: str = input('Informe o número de série do produto: ')
+    descricao: str = input('Informe a descrição do produto: ')
+    id_revendedor: int = int(input('Informe o Id do revendedor: '))
+
+    nf: NotaFiscal = NotaFiscal(
+        valor= valor
+        ,numero_serie= numero_serie
+        ,descricao= descricao
+        ,id_revendedor= id_revendedor
+    )     
+
+    with create_session() as session:
+        session.add(nf)
+        session.commit()
+    
+    print('ID: {}'.format(nf.id))
+    print('Data: {}'.format(nf.data_criacao))
+    print('Valor: {}'.format(nf.valor))
+    print('Numero Serie: {}'.format(nf.numero_serie))
+    print('Descricao: {}'.format(nf.descricao))
+    print('ID Revendedor: {}'.format(nf.id_revendedor))
+
 if __name__ == '__main__':
     #insert_aditivo_nutritivo()
     #insert_sabor()
     #insert_tipo_embalagem()
     #insert_tipo_picole()
     #insert_conservantes()
-    insert_revendedores()
+    #insert_revendedores()
+    insert_lote()
+    #insert_nota_fiscal()

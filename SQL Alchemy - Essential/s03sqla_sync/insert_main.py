@@ -7,10 +7,12 @@ from models.tipos_embalagem import TipoEmbalagem
 from models.tipos_picole import TipoPicole
 from models.conservantes import Conservante
 from models.revendedores import Revendedor
+from models.ingredientes import Ingrediente
 
 # Inserts / Parte 2 (entidades com vínculo estrangeiro)
 from models.lotes import Lote
 from models.notas_fiscais import NotaFiscal
+from models.picoles import Picole
 
 # Insert -> Aditivo Nutritivo
 def insert_aditivo_nutritivo() -> None:
@@ -28,11 +30,13 @@ def insert_aditivo_nutritivo() -> None:
         session.add(an)
         session.commit()
     
-    print('Aditivo Nutritivo cadastrado com sucesso!')
-    print(f'ID: {an.id}')
-    print(f'Data: {an.data_criacao}')
-    print(f'Nome: {an.nome}')
-    print(f'Formula Química: {an.formula_quimica}')
+    # print('Aditivo Nutritivo cadastrado com sucesso!')
+    # print(f'ID: {an.id}')
+    # print(f'Data: {an.data_criacao}')
+    # print(f'Nome: {an.nome}')
+    # print(f'Formula Química: {an.formula_quimica}')
+        
+    return an
 
 # Insert -> Novo Sabor
 def insert_sabor() -> None:
@@ -51,7 +55,7 @@ def insert_sabor() -> None:
     print('Nome: {}'.format(novo_sabor.nome))
 
 # Insert -> Tipo Embalagem
-def insert_tipo_embalagem():
+def insert_tipo_embalagem() -> None:
 
     nome_embalagem: str = input('Informe o nome da embalagem: ')
 
@@ -81,8 +85,21 @@ def insert_tipo_picole() -> None:
     print(f'Data: {tp.data_criacao}')
     print(f'Nome: {tp.nome}')
 
+# Insert - > Ingredientes
+def insert_ingrediente() -> Ingrediente:
+
+    nome: str = input('Informe o nome do ingrediente: ')
+
+    ingrediente: Ingrediente = Ingrediente(nome=nome)
+
+    with create_session() as session:
+        session.add(ingrediente)
+        session.commit()
+
+    return ingrediente
+
 # Insert -> Conservantes
-def insert_conservantes() -> None:
+def insert_conservantes() -> Conservante:
 
     nome: str = input('Informe o nome do conservante: ')
     descricao: str = input('Informe a descrição do conservante: ')
@@ -93,10 +110,11 @@ def insert_conservantes() -> None:
         session.add(conserv)
         session.commit()
     
-    print(f'ID: {conserv.id}')
-    print(f'Data: {conserv.data_criacao}')
-    print(f'Nome: {conserv.nome}')
-    print(f'DEscricao: {conserv.descricao}')
+    # print(f'ID: {conserv.id}')
+    # print(f'Data: {conserv.data_criacao}')
+    # print(f'Nome: {conserv.nome}')
+    # print(f'DEscricao: {conserv.descricao}')
+    return conserv
 
 # Insert -> Revendedores
 def insert_revendedores() -> None: # -> Revendedor:
@@ -162,6 +180,48 @@ def insert_nota_fiscal() -> None:
     print('Descricao: {}'.format(nf.descricao))
     print('ID Revendedor: {}'.format(nf.id_revendedor))
 
+# Insert -> Picole
+def insert_picole():
+
+    session = create_session()
+
+    preco: float = float(input('Informe o preco do picole: '))
+    id_sabor: int = int(input('Informe o Id do sabor do picolé: '))
+    id_tipo_embalagem: int = int(input('Informa o Id do tipo de embalagem do picolé: '))
+    id_tipo_picole: int = int(input('Informe o Id do tipo de picolé: '))
+
+    picole: Picole = Picole(preco=preco, id_sabor=id_sabor, id_tipo_embalagem=id_tipo_embalagem, id_tipo_picole=id_tipo_picole)
+
+    # precisamos inserir algum ingrediente no banco, pois todo picolé possui 1 ou mais ingredientes obrigatoriamente
+    ing1 = insert_ingrediente()
+    picole.ingredientes.append(ing1) # a entidade picole se relaciona com os ingredientes como se fosse uma lista
+
+    ing2 = insert_ingrediente()
+    picole.ingredientes.append(ing2)
+
+    conserv = insert_conservantes()
+    picole.conservantes.append(conserv)
+
+    an = insert_aditivo_nutritivo()
+    picole.aditivos_nutritivos.append(an)
+
+    session.add(picole)
+    session.commit()
+
+    print(f'ID: {picole.id}')
+    print(f'Data: {picole.data_criacao}')
+    print(f'ID Sabor: {picole.id_sabor}')
+    print(f'Nome Sabor: {picole.sabor.nome}')
+    print(f'ID do tipo de embalagem: {picole.id_tipo_embalagem}')
+    print(f'Descricao embalagem: {picole.tipo_embalagem.nome}')
+    print(f'ID do tipo de picolé: {picole.id_tipo_picole}')
+    print(f'Descricao tipo picolé: {picole.tipo_picole.nome}')
+    print(f'Ingredientes: {picole.ingredientes}')
+    print(f'Conservantes: {picole.conservantes}')
+    print(f'Aditivos Nutritivos: {picole.aditivos_nutritivos}')
+    
+    session.close()
+
 if __name__ == '__main__':
     #insert_aditivo_nutritivo()
     #insert_sabor()
@@ -169,5 +229,6 @@ if __name__ == '__main__':
     #insert_tipo_picole()
     #insert_conservantes()
     #insert_revendedores()
-    insert_lote()
+    #insert_lote()
     #insert_nota_fiscal()
+    insert_picole()

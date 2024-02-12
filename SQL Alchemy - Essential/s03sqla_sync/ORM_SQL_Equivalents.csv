@@ -1,0 +1,9 @@
+Operation	ORM Syntax
+EQUALS	query(<object>).filter(User.name == 'ed')
+NOT EQUAL	query(<object>).filter(User.Name != 'ed')
+LIKE	query(<object>).filter(User.name.like('%ed%'))
+IN	query(<object>).filter(User.name.in_(['ed', 'wendy', 'jack]))
+NOT IN	query(<object>).filter(~User.name.in_(['ed', 'wendy', 'jack']))
+NULL	query(<object>).filter(User.name == None)
+AND	query(<object>).filter(User.name == 'ed').filter(User.age == 27)
+OR	query(<object>).filter(or_(User.name == 'ed', User.name == 'wendy'))

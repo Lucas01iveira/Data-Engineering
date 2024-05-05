@@ -1,4 +1,5 @@
 from codigo.bytebank import Funcionario
+import pytest
 
 class Test_Class:
     # para o framework pytest funcionar corretamente, o padrão de nomenclatura deve ser sempre 'test_<string>'
@@ -18,31 +19,81 @@ class Test_Class:
         # Then - Desfecho
         assert resultado == saida_esperada
     
-    def test_se_1000_eh_igual_a_1001_menos_1(self):
-        # Given
-        referencia = 1000
-        outro_numero = 1001
+    def test_se_sobrenome_esta_correto(self):
+        
+        # given (dados os parâmetros...)
+        nome_entrada = 'Lucas Oliveira'
+        sobrenome = 'Oliveira'
 
-        # When
-        resultado = outro_numero-1
+        # when (quando a classe é instanciada...)
+        teste = Funcionario(nome_entrada, '05/11/2001', 1000)
 
-        # Then
-        assert referencia == resultado
+        # then (então verifico...)
+        assert sobrenome == teste.sobrenome()
+
+    def test_decrescimo_salario_recebe_100000_deve_retornar_90000(self):
+        entrada = 100000 # given
+        esperado = 90000
+        entrada_nome = 'Paulo Bragança'
+
+        funcionario_teste = Funcionario(entrada_nome, '11/11/2000', entrada)
+
+        funcionario_teste.decrescimo_salario() #when
+        resultado = funcionario_teste.salario
+
+        assert resultado == esperado
+
+    def test_quando_calcular_bonus_recebe_1000_deve_retornar_100(self):
+        # given
+        entrada = 1000 
+        esperado = 100
+        funcionario_teste = Funcionario('Teste', '11/11/2000', entrada)
+
+        # when
+        resultado = funcionario_teste.calcular_bonus()
+
+        # then
+        assert resultado == esperado
+
+    def test_quando_calcular_bonus_recebe_100000_deve_retornar_exception(self):
+
+        with pytest.raises(Exception):
+            # given
+            entrada = 100000 
+            funcionario_teste = Funcionario('Teste', '11/11/2000', entrada)
+
+            # when
+            resultado = funcionario_teste.calcular_bonus()
+
+            # then
+            assert resultado 
+            
     
-    def test_se_1000_eh_igual_a_2000_menos_500(self):
-        # Given
-        referencia = 1000
-        outro_numero = 2000
+    # def test_se_1000_eh_igual_a_1001_menos_1(self):
+    #     # Given
+    #     referencia = 1000
+    #     outro_numero = 1001
 
-        # When
-        resultado = outro_numero-500
+    #     # When
+    #     resultado = outro_numero-1
 
-        # Then
-        assert referencia == resultado
+    #     # Then
+    #     assert referencia == resultado
+    
+    # def test_se_1000_eh_igual_a_2000_menos_500(self):
+    #     # Given
+    #     referencia = 1000
+    #     outro_numero = 2000
 
-class TestAvulso:
-    def test_se_A_eh_igual_a_A(self):
-        texto1 = 'A'
-        texto2 = 'A'
+    #     # When
+    #     resultado = outro_numero-500
 
-        assert texto1 == texto2
+    #     # Then
+    #     assert referencia == resultado
+
+# class TestAvulso:
+#     def test_se_A_eh_igual_a_A(self):
+#         texto1 = 'A'
+#         texto2 = 'A'
+
+#         assert texto1 == texto2

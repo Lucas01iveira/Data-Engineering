@@ -6,6 +6,7 @@ class Test_Class:
 
     # além disso, recomenda-se que os nomes dos métodos de teste sejam os mais explícitos e claros possíveis em relação à funcionalidade que está sendo testada
 
+    @pytest.mark.skip
     def test_quando_idade_recebe_13_03_2000_deve_retornar_22(self):
         # Given - Contexto
         entrada = '05/11/2001'
@@ -43,6 +44,7 @@ class Test_Class:
 
         assert resultado == esperado
 
+    @pytest.mark.calcular_bonus
     def test_quando_calcular_bonus_recebe_1000_deve_retornar_100(self):
         # given
         entrada = 1000 
@@ -55,6 +57,7 @@ class Test_Class:
         # then
         assert resultado == esperado
 
+    @pytest.mark.calcular_bonus
     def test_quando_calcular_bonus_recebe_100000_deve_retornar_exception(self):
 
         with pytest.raises(Exception):
@@ -68,17 +71,17 @@ class Test_Class:
             # then
             assert resultado 
             
-    
-    # def test_se_1000_eh_igual_a_1001_menos_1(self):
-    #     # Given
-    #     referencia = 1000
-    #     outro_numero = 1001
+    @pytest.mark.skip
+    def test_se_1000_eh_igual_a_1001_menos_1(self):
+        # Given
+        referencia = 1000
+        outro_numero = 1001
 
-    #     # When
-    #     resultado = outro_numero-1
+        # When
+        resultado = outro_numero-1
 
-    #     # Then
-    #     assert referencia == resultado
+        # Then
+        assert referencia == resultado
     
     # def test_se_1000_eh_igual_a_2000_menos_500(self):
     #     # Given
@@ -91,9 +94,22 @@ class Test_Class:
     #     # Then
     #     assert referencia == resultado
 
-# class TestAvulso:
-#     def test_se_A_eh_igual_a_A(self):
-#         texto1 = 'A'
-#         texto2 = 'A'
+@pytest.mark.skip(reason='o bloco abaixo representa apenas uma tentativa de entender o módulo pytest')
+class TestAvulso:
+    def test_se_A_eh_igual_a_A(self):
+        texto1 = 'A'
+        texto2 = 'A'
 
-#         assert texto1 == texto2
+        assert texto1 == texto2
+    
+    def test_se_B_eh_igual_a_B(self):
+        texto1 = 'B'
+        texto2 = 'B'
+
+        assert texto1 == texto2
+    
+    def test_se_V_eh_igual_a_B(self):
+        texto1 = 'V'
+        texto2 = 'B'
+
+        assert texto1 == texto2

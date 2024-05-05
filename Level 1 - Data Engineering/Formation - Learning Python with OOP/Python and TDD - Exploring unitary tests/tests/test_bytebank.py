@@ -94,7 +94,8 @@ class Test_Class:
     #     # Then
     #     assert referencia == resultado
 
-@pytest.mark.skip(reason='o bloco abaixo representa apenas uma tentativa de entender o módulo pytest')
+#@pytest.mark.skip(reason='o bloco abaixo representa apenas uma tentativa de entender o módulo pytest')
+@pytest.mark.skipif(condition= 1 == 1, reason='Se 1 for igual a 1, não executo esse teste')
 class TestAvulso:
     def test_se_A_eh_igual_a_A(self):
         texto1 = 'A'

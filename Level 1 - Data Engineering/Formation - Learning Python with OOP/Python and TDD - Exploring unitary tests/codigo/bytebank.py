@@ -6,6 +6,9 @@ class Funcionario:
         self._data_nascimento = data_nascimento
         self._salario = salario
 
+    def __str__(self):
+        return f'Funcionario({self._nome}, {self._data_nascimento}, {self._salario})'
+
     @property
     def nome(self):
         return self._nome
@@ -23,12 +26,6 @@ class Funcionario:
         ano_nasc = data_nasc_split[-1]
         ano_atual = date.today().year
         return ano_atual - int(ano_nasc)
-
-    def calcular_bonus(self):
-        valor = self._salario * 0.1
-        if valor > 1000:
-            valor = 0
-        return valor
     
     def sobrenome(self):
         nome_split = self._nome.split(' ')
@@ -65,5 +62,4 @@ class Funcionario:
             raise Exception('O salário é muito alto para receber um bônus.')
         return valor
     
-    def __str__(self):
-        return f'Funcionario({self._nome}, {self._data_nascimento}, {self._salario})'
+    

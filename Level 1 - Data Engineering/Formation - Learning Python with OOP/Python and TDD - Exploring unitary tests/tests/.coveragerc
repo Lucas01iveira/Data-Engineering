@@ -1,5 +1,5 @@
 [run]
 
 [report]
-exclude_lines = 
+exclude_also = 
     def __str__

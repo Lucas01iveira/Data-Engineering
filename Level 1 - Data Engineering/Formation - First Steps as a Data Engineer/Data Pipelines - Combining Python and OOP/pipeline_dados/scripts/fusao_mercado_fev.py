@@ -72,18 +72,21 @@ def main():
 
     
     # 1) Etapa de leitura dos dados
-
+    print(end='\n\n')
+    print('-- x -- '*5)
     path_json = 'pipeline_dados/data_raw/dados_empresaA.json'
     json_data = read_file(path_json, 'json')
 
     # validação
-    print(json_data[0])
+    print('Verificando formato geral dos dados json...')
+    print(json_data[0], end='\n\n')
 
     path_csv = 'pipeline_dados/data_raw/dados_empresaB.csv'
     csv_data = read_file(path_csv, 'csv')
 
     # validação
-    print(csv_data[0])
+    print('Verificando formato geral dos dados csv...')
+    print(csv_data[0], end=' \n\n')
 
     # 2) Etapa de tratamento dos dados
     column_map = {'Nome do Item': 'Nome do Produto',
@@ -96,7 +99,8 @@ def main():
     csv_data_renamed = rename_columns(column_map, csv_data)
     
     # validação
-    print(csv_data_renamed[0])
+    print('Verificando formato geral dos dados csv após o rename das colunas...')
+    print(csv_data_renamed[0], end='\n\n')
 
     column_final_layout = [
         'Nome do Produto',
@@ -109,13 +113,22 @@ def main():
     treated_data = combine_data(json_data, csv_data_renamed, column_final_layout)
 
     # validacao
+    print('Verificando o formato geral dos dados finais a serem disponibilizados...')
     print(treated_data[0])
-    print(treated_data[-1])
+    print(treated_data[-1], end='\n\n')
 
     # 3) Etapa de disponibilização dos dados tratados 
+    path_to_save = r'pipeline_dados/data_processed/dados_combinados_fev.csv'
+    print('Iniciando processo de disponibilização do arquivo unificado...')
 
+    with open(path_to_save, 'w', encoding= 'utf-8') as file:
+        file_writer = csv.DictWriter(file, fieldnames= column_final_layout)
+        file_writer.writeheader()
+        file_writer.writerows(treated_data)
+
+    print('Arquivo final processado com sucesso!')
+    print('-- x -- '*5)
+    print(end='\n\n')
 
 if __name__ == '__main__':
-    print()
     main()
-    print()

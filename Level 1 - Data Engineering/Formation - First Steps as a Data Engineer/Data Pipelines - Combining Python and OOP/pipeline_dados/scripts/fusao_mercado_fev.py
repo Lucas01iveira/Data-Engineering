@@ -1,78 +1,83 @@
 import json 
 import csv
 
-def main():
-    # -- x --  -- x --  FUNÇÕES DE LEITURA DE DADOS -- x -- -- x -- 
-    def read_json(path_json):
+# -- x --  -- x --  FUNÇÕES DE LEITURA DE DADOS -- x -- -- x -- 
+def read_json(path_json):
 
-        with open(path_json, 'r') as file:
-            file_data = json.load(file)
-        
-        return file_data
-
-    def read_csv(path_csv):
-        file_data = []
-
-        with open(path_csv, 'r', encoding= 'utf-8') as file:
-            reader = csv.DictReader(file, delimiter= ',')
-            for row in reader:
-                file_data.append(row)
-        
-        return file_data
-
-    def read_file(file_path, file_type):
-        if file_type.upper() == 'JSON':
-            return read_json(file_path)
-        
-        elif file_type.upper() == 'CSV':
-            return read_csv(file_path)
-        
-        else:
-            pass
+    with open(path_json, 'r') as file:
+        file_data = json.load(file)
     
-    # -- x -- -- x -- FUNÇÕES DE TRATAMENTO DE DADOS -- x -- -- x -- 
+    return file_data
 
-    def rename_columns(column_map: dict, file_data: list):
-        new_file_data = []
+def read_csv(path_csv):
+    file_data = []
+
+    with open(path_csv, 'r', encoding= 'utf-8') as file:
+        reader = csv.DictReader(file, delimiter= ',')
+        for row in reader:
+            file_data.append(row)
+    
+    return file_data
+
+def read_file(file_path, file_type):
+    if file_type.upper() == 'JSON':
+        return read_json(file_path)
+    
+    elif file_type.upper() == 'CSV':
+        return read_csv(file_path)
+    
+    else:
+        pass
+
+# -- x -- -- x -- FUNÇÕES DE TRATAMENTO DE DADOS -- x -- -- x -- 
+
+def rename_columns(column_map: dict, file_data: list):
+    new_file_data = []
+    
+    # element (type dict)
+    for element in file_data:
+        new_dict = {}
+
+        for old_column_name, value in element.items():
+            new_dict[column_map[old_column_name]] = value
+
+        new_file_data.append(new_dict)
+
+    return new_file_data
+
+
+def combine_data(data1: list, data2: list, column_layout: list):
+    if type(data1) == list and type(data2) == list:
+        total_data = []
+        total_data.extend(data1)
+        total_data.extend(data2)
         
-        # element (type dict)
-        for element in file_data:
+        total_data_treated = []
+
+        for item in total_data:
             new_dict = {}
 
-            for old_column_name, value in element.items():
-                new_dict[column_map[old_column_name]] = value
-
-            new_file_data.append(new_dict)
-
-        return new_file_data
-
-
-    def combine_data(data1: list, data2: list, column_layout: list):
-        if type(data1) == list and type(data2) == list:
-            total_data = []
-            total_data.extend(data1)
-            total_data.extend(data2)
+            for column in column_layout:
+                new_dict[column] = item.get(column, 'INDISPONIVEL')
             
-            total_data_treated = []
+            total_data_treated.append(new_dict)
 
-            for item in total_data:
-                new_dict = {}
+        return total_data_treated
 
-                for column in column_layout:
-                    new_dict[column] = item.get(column, 'INDISPONIVEL')
-                
-                total_data_treated.append(new_dict)
+    else:
+        raise ValueError('Os datasets provisionados não estão no mesmo formado ou não se encontram no tipo adequado. Favor verificar.')
+        
+# -- x -- -- x -- FUNÇÃO DE SALVAMENTO DOS DADOS -- x -- -- x -- 
+def save_file(path: str, related_data: list, column_layout: list):
+    with open(path, 'w', encoding= 'utf-8') as file:
+        file_writer = csv.DictWriter(file, fieldnames= column_layout)
+        file_writer.writeheader()
+        file_writer.writerows(related_data)
 
-            return total_data_treated
-    
-        else:
-            raise ValueError('Os datasets provisionados não estão no mesmo formado ou não se encontram no tipo adequado. Favor verificar.')
-
-    #  -- x -- -- x -- -- x -- -- x -- -- x -- -- x -- -- x -- -- x -- -- x -- -- x -- -- x -- -- x -- -- x -- -- x -- -- x -- -- x --
-
+def main():
     
     # 1) Etapa de leitura dos dados
-    print(end='\n\n')
+    print(end='\n')
     print('-- x -- '*5)
     path_json = 'pipeline_dados/data_raw/dados_empresaA.json'
     json_data = read_file(path_json, 'json')
@@ -119,16 +124,13 @@ def main():
 
     # 3) Etapa de disponibilização dos dados tratados 
     path_to_save = r'pipeline_dados/data_processed/dados_combinados_fev.csv'
+
     print('Iniciando processo de disponibilização do arquivo unificado...')
-
-    with open(path_to_save, 'w', encoding= 'utf-8') as file:
-        file_writer = csv.DictWriter(file, fieldnames= column_final_layout)
-        file_writer.writeheader()
-        file_writer.writerows(treated_data)
-
+    save_file(path_to_save, treated_data, column_final_layout)
     print('Arquivo final processado com sucesso!')
+
     print('-- x -- '*5)
-    print(end='\n\n')
+    print(end='\n')
 
 if __name__ == '__main__':
     main()

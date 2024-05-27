@@ -74,7 +74,7 @@ def save_file(path: str, related_data: list, column_layout: list):
         file_writer.writeheader()
         file_writer.writerows(related_data)
 
-def main():
+def data_pipeline():
     
     # 1) Etapa de leitura dos dados
     print(end='\n')
@@ -133,4 +133,4 @@ def main():
     print(end='\n')
 
 if __name__ == '__main__':
-    main()
+    data_pipeline()

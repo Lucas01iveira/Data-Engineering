@@ -16,13 +16,13 @@ class Dados:
     def __len__(self) -> int:
         return len(self._dados)
 
-    def read_json(self) -> list:
+    def __read_json(self) -> list:
         
         with open(self._path, 'r') as file:
             file_data = json.load(file) 
         return file_data
 
-    def read_csv(self) -> list:
+    def __read_csv(self) -> list:
         file_data = []
 
         with open(self._path, 'r', encoding= 'utf-8') as file:
@@ -47,7 +47,7 @@ class Dados:
         else:
             pass
 
-    def get_columns(self) -> list:
+    def __get_columns(self) -> list:
         return self._dados[-1].keys()
         
     def rename_columns(self, column_map: dict) -> object:

@@ -61,15 +61,15 @@ def data_pipeline():
     # validacao
     print('Quantidade de dados final: {}'.format(len(treated_data)))
     print('Verificando o formato geral dos dados finais a serem disponibilizados...')
-    print(treated_data[0])
-    print(treated_data[-1], end='\n\n')
+    print(treated_data.dados[0])
+    print(treated_data.dados[-1], end='\n\n')
 
-    # # 3) Etapa de disponibilização dos dados tratados 
-    # path_to_save = r'pipeline_dados/data_processed/dados_combinados_fev.csv'
+    # 3) Etapa de disponibilização dos dados tratados 
+    path_to_save = r'pipeline_dados/data_processed/dados_combinados_fev_v2.csv'
 
-    # print('Iniciando processo de disponibilização do arquivo unificado...')
-    # save_file(path_to_save, treated_data, column_final_layout)
-    # print('Arquivo final processado com sucesso!')
+    print('Iniciando processo de disponibilização do arquivo unificado...')
+    Dados.save_file(path_to_save, treated_data, column_final_layout)
+    print('Arquivo final processado com sucesso!')
 
     print('-- x -- '*5)
     print(end='\n')

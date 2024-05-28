@@ -1,16 +1,8 @@
 import json 
 from processamento_dados import Dados
 
-def read_json(path_json):
-
-    with open(path_json, 'r') as file:
-        file_data = json.load(file)
-    
-    return file_data
-
-
 def data_pipeline():
-    
+    # -- x -- -- x -- -- x -- -- x -- -- x -- -- x -- -- x -- -- x -- 
     # 1) Etapa de leitura dos dados (Extract)
     print(end='\n')
     print('-- x -- '*5)
@@ -31,6 +23,7 @@ def data_pipeline():
     print('Verificando formato geral dos dados csv...')
     print(dados_empresaB.dados[:1])
 
+    # -- x -- -- x -- -- x -- -- x -- -- x -- -- x -- -- x -- -- x -- 
     # 2) Etapa de tratamento dos dados (Transform)
     column_map = {'Nome do Item': 'Nome do Produto',
                 'Classificação do Produto': 'Categoria do Produto',
@@ -40,7 +33,6 @@ def data_pipeline():
                 'Data da Venda': 'Data da Venda'}
     
     dados_empresaB.rename_columns(column_map)
-    
     
     # validação
     print()
@@ -64,6 +56,7 @@ def data_pipeline():
     print(treated_data.dados[0])
     print(treated_data.dados[-1], end='\n\n')
 
+    # -- x -- -- x -- -- x -- -- x -- -- x -- -- x -- -- x -- -- x -- 
     # 3) Etapa de disponibilização dos dados tratados 
     path_to_save = r'pipeline_dados/data_processed/dados_combinados_fev_v2.csv'
 

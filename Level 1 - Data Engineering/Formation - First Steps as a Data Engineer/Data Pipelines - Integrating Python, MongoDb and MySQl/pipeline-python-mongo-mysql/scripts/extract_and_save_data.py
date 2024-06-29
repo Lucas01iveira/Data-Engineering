@@ -33,6 +33,35 @@ def connection_to_collection(db_conn, collection_name):
 
     return db_conn[f'{collection_name}']
 
+def extract_data(api_url):
+    '''
+        Recebe a url de conexão com a API de interesse e retorna os dados em formato json
+        (não há header de autenticação nem controle de paginação)
+    '''
+    r = requests.get(api_url)
+
+    if r.status_code != 200:
+        raise ConnectionError('Requisição da API não foi concluída corretamente. Favor verificar!')
+    else:
+        pass
+
+    return r.json()
+
+def save_data(coll_conn, data):
+    '''
+        Recebe as variáveis 
+            - coll_conn: connection com a collection de trabalho dentro do banco de dados no cluster de trabalho 
+            - data: dados de insert no formato json
+    '''
+
+    operation = coll_conn.insert_many(
+        data
+    )
+
+    print(f'Foram inseridos {len(operation.inserted_ids)} documentos na coleção')
+
+
+
 if __name__ == '__main__':
     print('Gerando conexão com o cluster...', end= '\n\n')
     atlas_client = connect_mongo("mongodb+srv://LucasTesteOliveira:testeTeste@cluster0.ymobupc.mongodb.net/?appName=Cluster0")
@@ -40,8 +69,12 @@ if __name__ == '__main__':
     print('Gerando conexão com daabase e sua collection...', end= '\n\n')
     db_conn = connection_to_database(atlas_client, 'Db_Teste')
     coll_conn = connection_to_collection(db_conn, 'test_collection')
-    
-    print('Inserindo documentos na collection...', end= '\n\n')
-    coll_conn.insert_one({"Documento": "TesteConexão", "Res ponsável": "Lucas"})
 
-    print('Pipeline executado com sucesso!')
+    print('Extraindo base de dados da api...', end= '\n\n')
+    json_data = extract_data('https://labdados.com/produtos')
+
+    print('Disponibilizando dados consultados na collection de trabalho...')
+    save_data(coll_conn, json_data)
+
+    atlas_client.close()
+

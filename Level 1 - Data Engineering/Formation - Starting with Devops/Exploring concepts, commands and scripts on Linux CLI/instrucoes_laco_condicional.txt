@@ -1,0 +1,63 @@
+A sintaxe geral do if/else dentro do bash script segue a seguinte estrutura:
+
+if [ <condicao> ];
+then
+	<comando>
+elif [ <condicao> ]; 
+then 
+	<comando>
+else
+	<comando>
+fi
+
+- Atencao!! 
+	- O Espaco dentro dos colchetes de estruturacao das condicoes (apos a abertura e antes do fechamento) 
+	eh OBRIGATORIO (do contrario, o script resultara em erro)
+	- O ponto e virgula apos encerramento da condicao eh opcional, MAS RECOMENDAVEL
+
+- Algumas compracoes uteis!
+
+- Igualdade entre STRINGS (aplicavel tambem a numeros)
+if [ "$string1" = "$string2" ]; then
+  # Comandos a serem executados se as strings forem iguais.
+fi
+
+- Desigualdade entre STRINGS (aplicavel tambem a numeros)
+if [ "$string1" != "$string2" ]; then
+  # Comandos a serem executados se as strings forem distintas.
+fi
+
+- Igualdade entre NUMEROS (aplicavel APENAS a numeros)
+if [ "$numero1" -eq "$numero2" ]; then
+  # Comandos a serem executados se os números forem iguais.
+fi
+
+- Desigualdade entre numeros (aplicavel APENAS a numeros)
+if [ "$numero1" -ne "$numero2" ]; then
+  # Comandos a serem executados se os números forem distintos.
+fi
+
+- Teste de comparacao (se numero1 > numero2)
+if [ "$numero1" -gt "$numero2" ]; then
+  # Comandos a serem executados se o primeiro número for maior que o segundo.
+fi
+
+- Teste de comparacao (se numero1 < numero2)
+if [ "$numero1" -lt "$numero2" ]; then
+  # Comandos a serem executados se o primeiro número for menor que o segundo.
+fi
+
+- Teste de comparacao (se numero1 >= numero2)
+if [ "$numero1" -ge "$numero2" ]; then
+  # Comandos a serem executados se o primeiro número for maior ou igual ao segundo.
+fi
+
+- Teste de comparacao (se numero1 <= numero2)
+if [ "$numero1" -le "$numero2" ]; then
+  # Comandos a serem executados se o primeiro número for maior ou igual ao segundo.
+fi
+
+- Teste de existencia de um diretorio
+if [  -e "/caminho/do/arquivo" ]; then
+  # Comandos a serem executados caso seja constatada a existência do diretório ou arquivo.
+fi

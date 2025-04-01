@@ -1,0 +1,13 @@
+
+- Every async function is called a coroutine, and they have the property of being flexible, receiving suspensions and resumes from the event loop management in order the code to be executed concurrently
+
+- The 'await' syntax is used within coroutines to 'await' the execution of an asynchronous operation
+
+- Coroutines can await other coroutines or asynchronous operations (it depends on the logic being applied)
+
+- And they can also be awaited concurrently/simultaneously with the help of asyncio.gather (which is managed by the event loop)
+
+- The asyncio.run function is a convenient way to run a coroutine and manage the event loop lifecycle. We normally apply it to our main coroutine (which can call others or not, but usually it does)
+    - This function creates a new event loop, runs the provided coroutine, and automatically handles the cleanup of resources and event loop closing
+
+- For more control it is possible to create event loops manually using asyncio.new_event_loop and running them with asyncio.run_until_complete. This approach does exists, but is way more complicated.

@@ -31,3 +31,7 @@
 
 - Asyncio also provides mechanisms to integrate with synchronous code and libraries, allowing for seamless interoperability. The 'asyncio.run_in_executor' method chan offload synchronous code to separate threads or process pools, preventing the event loop from being blocked.
     - There are also asynchronous wrappers, which can be created around synchronous functions to make them compatible with Asyncio
+
+- The logging module in Python provides a flexible and configurable logging system. We can use it to log messages at different levels (e.g., debug, info) throughout the application. They also help to track the flow of execution and identify potential issues.
+
+- Asyncio also provides a debbuging mode that can be enabled using 'asyncio.get_event_loop().set_debug(True)'. This option must be set before the awaiting of the main coroutine and, during the code execution, it will emit additional debug information and warnings

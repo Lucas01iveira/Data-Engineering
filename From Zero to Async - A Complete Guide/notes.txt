@@ -35,3 +35,7 @@
 - The logging module in Python provides a flexible and configurable logging system. We can use it to log messages at different levels (e.g., debug, info) throughout the application. They also help to track the flow of execution and identify potential issues.
 
 - Asyncio also provides a debbuging mode that can be enabled using 'asyncio.get_event_loop().set_debug(True)'. This option must be set before the awaiting of the main coroutine and, during the code execution, it will emit additional debug information and warnings
+
+- Web scraping with Asyncio and *aiohttp allows for efficient and concurrent extraction of data from websites and API's (mainly). 
+
+- Aiohttp provides a simple and intuitive API for making asynchronous http requests and handling responses

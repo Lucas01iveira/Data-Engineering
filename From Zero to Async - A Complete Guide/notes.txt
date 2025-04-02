@@ -17,3 +17,11 @@
 - The asyncio.create_task function creates a Task object from the provided corroutine. The main coroutine awaits the completion of the Task, allowing the event loop to run the coroutine concurrently.
 
 - As we already have seen, the asyncio.gather function can be used to schedule and await multiple Tasks concurrently. The event loop manages the concurrent execution of all the tasks gathered.
+
+- AsyncIO supports the work/connection with various databases through asynchronous database drivers. Popular asynchronous drivers include:
+    - AsyncPG (for PostgreSQL)
+    - Motor (for MongoDB)
+    - Aio_pika (for RabbitMQ)
+    - Asyncio Redis (for Redis)
+    - aiosqlite (for sqlite)
+    - aioodbc (for SQL Server)

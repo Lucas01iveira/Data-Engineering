@@ -1,3 +1,6 @@
+- AsyncIO excels in I/O-bound tasks, such as network operations, where the program spends significant time waiting for external responses, allowing other tasks to proceed concurrently.
+
+- Exception handling in async functions in Python follows the same try-except pattern as synchronous code. When awaiting an async function, exceptions can be caught and handled in the except block.
 
 - Every async function is called a coroutine, and they have the property of being flexible, receiving suspensions and resumes from the event loop management in order the code to be executed concurrently
 
@@ -25,3 +28,6 @@
     - Asyncio Redis (for Redis)
     - aiosqlite (for sqlite)
     - aioodbc (for SQL Server)
+
+- Asyncio also provides mechanisms to integrate with synchronous code and libraries, allowing for seamless interoperability. The 'asyncio.run_in_executor' method chan offload synchronous code to separate threads or process pools, preventing the event loop from being blocked.
+    - There are also asynchronous wrappers, which can be created around synchronous functions to make them compatible with Asyncio

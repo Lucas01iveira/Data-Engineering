@@ -39,3 +39,5 @@
 - Web scraping with Asyncio and *aiohttp allows for efficient and concurrent extraction of data from websites and API's (mainly). 
 
 - Aiohttp provides a simple and intuitive API for making asynchronous http requests and handling responses
+
+-  When building async web scrappers (specially with aiohttp, in this case), it's crucial to respect the website's crawling policies and manage request rates to avoid being blocked, ensuring ethical scraping practices (i.e, it's important to define a requisition Semaphore on our routine)

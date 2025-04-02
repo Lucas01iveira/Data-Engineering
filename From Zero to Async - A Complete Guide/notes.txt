@@ -11,3 +11,9 @@
     - This function creates a new event loop, runs the provided coroutine, and automatically handles the cleanup of resources and event loop closing
 
 - For more control it is possible to create event loops manually using asyncio.new_event_loop and running them with asyncio.run_until_complete. This approach does exists, but is way more complicated.
+
+- Tasks are the primary building blocks for executing and managing asynchronous operations in AsyncIO. Understanging then how to create, schedule and manage tasks is crucial for developing efficient and scalable asynchronous applications
+
+- The asyncio.create_task function creates a Task object from the provided corroutine. The main coroutine awaits the completion of the Task, allowing the event loop to run the coroutine concurrently.
+
+- As we already have seen, the asyncio.gather function can be used to schedule and await multiple Tasks concurrently. The event loop manages the concurrent execution of all the tasks gathered.
